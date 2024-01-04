@@ -1,0 +1,11 @@
+{
+  "testnet": {
+    "title": "Testnet",
+    "theme": {
+      "typesetting": "article"
+    }
+  },
+  "babylon-testnet": {
+    "title": "Babylon Testnet"
+  }
+}

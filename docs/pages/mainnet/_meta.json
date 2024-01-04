@@ -3,7 +3,6 @@
     "title": "Docs Home",
     "type": "page",
     "toc": false,
-    "layout": "full",
     "theme": {
       "typesetting": "article"
     },
@@ -20,8 +19,10 @@
     "type":"menu",
     "items": {
       "Mainnets": {
+        "href": "/mainnet"
       },
       "Testnets": {
+        "href": "/testnet"
       }
     }
   },
