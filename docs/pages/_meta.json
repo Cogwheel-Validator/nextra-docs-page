@@ -19,9 +19,11 @@
     "title": "Networks",
     "type":"menu",
     "items": {
-      "Mainnets": {
+      "mainnet": {
+        "title": "Mainnets"
       },
-      "Testnets": {
+      "testnet": {
+        "title": "Testnets"
       }
     }
   },
