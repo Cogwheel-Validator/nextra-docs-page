@@ -1,0 +1,126 @@
+---
+CHAIN_ID: "centauri-1"
+CHAIN_VERSION: "v6.3.6"
+CHAIN_HOME: "$HOME/.banksy"
+NETWORK_TYPE: "mainnet"
+DENOM: "centaurid"
+CODEBASE: "https://github.com/notional-labs/composable-centauri"
+DIRECTORY: "composable-centauri"
+SERVICE: "centaurid.service"
+SERVICE_NAME: "Composable"
+---
+
+# Composable (cosmos) chain
+
+![Composable icon](/public/assets/composableIcon.webp){width=10rem}
+
+| :------------      | :----------       |
+| Chain ID           | {$CHAIN_ID}       |
+| Chain version      | {$CHAIN_VERSION}  |
+| Netrork type       | {$NETWORK_TYPE}   |
+
+## Endpoints
+
+| :------------      | :----------:                          |
+| Blit Chain         | Links                                 |
+| REST API           | https://composable-api.cogwheel.zone  |
+| RPC                | https://composable-rpc.cogwheel.zone  |
+| GRPC               | grpc://composable-grpc.cogwheel.zone  |
+
+## Node setup for Composable Cosmos chain
+
+### Update the system and install the essentials:
+
+```bash
+sudo apt update && sudo apt full-upgrade -y && apt install build-essential 
+sudo apt install vim /or apt install nano 
+sudo apt install entr jq make git ufw wget 
+```
+
+### Install GO and Cosmovisor
+
+```bash
+sudo rm -r /usr/local/go/
+wget https://golang.org/dl/go1.21.1.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.21.1.linux-amd64.tar.gz
+rm go1.21.1.linux-amd64.tar.gz
+echo 'export PATH=$PATH:/usr/local/go/bin' >> $HOME/.bashrc
+echo 'export PATH=$PATH:$HOME/go/bin' >> $HOME./bashrc
+source $HOME/.bashrc
+
+# Install cosmovisor
+$ go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.5.0
+$ sudo mv ~/go/bin/cosmovisor /usr/local/bin
+```
+
+### Clone the repository and install node binary
+
+```bash
+cd $HOME 
+git clone {$CODEBASE}
+cd {$DIRECTORY} 
+git checkout {$CHAIN_VERSION} * always doublecheck from the official team for the right version
+make install
+```
+
+### Set up cosmovisor
+
+```bash 
+mkdir -p {$CHAIN_HOME}/cosmovisor/genesis/bin
+mkdir -p {$CHAIN_HOME}/cosmovisor/upgrades
+mv $HOME/go/bin/{$BINARY} {$CHAIN_HOME}/cosmovisor/genesis/bin/
+sudo ln -s {$CHAIN_HOME}/cosmovisor/genesis {$CHAIN_HOME}/cosmovisor/current -f
+sudo ln -s {$CHAIN_HOME}/cosmovisor/current/bin/{$BINARY} /usr/local/bin/{$BINARY} -f
+
+# Create service file
+
+sudo tee /etc/systemd/system/{$SERVICE} > /dev/null <<EOF
+[Unit]
+Description=”{$SERVICE_NAME} node”
+After=network-online.target
+
+[Service]
+User=$USER
+ExecStart=$(which cosmovisor) run start
+WorkingDirectory={$CHAIN_HOME}
+Restart=on-failure 
+RestartSec=5
+LimitNOFILE=65535
+Environment=”DAEMON_NAME={$BINARY}”
+Environment=”DAEMON_HOME={$CHAIN_HOME}”
+Environment=”DAEMON_ALLOW_DOWNLOAD_BINARIES=false”
+Environment=”DAEMON_RESTART_AFTER_UPGRADE=true”
+Environment=”UNSAFE_SKIP_BACKUP=true”
+Environment=”PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:{$CHAIN_HOME}/cosmovisor/current/bin”
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable {$SERVICE}
+```
+
+### Set up the node 
+
+```bash
+# Please when using this guide replace “YOUR_MONIKER” with name for your node.
+
+centaurid init YOUR_MONIKER –chain-id centauri-1
+
+# Get address book and genesis.json
+wget -O ~/.banksy/config/genesis.json https://raw.githubusercontent.com/notional-labs/composable-networks/main/mainnet/genesis.json
+
+#Set minimum gas prices
+sed -i -e “s|^minimum-gas-prices *=.*|minimum-gas-prices = \”0ppica\”|” $HOME/.banksy/config/app.toml
+# You can get address book from any validator (you only need 1 address book)
+Polkachu
+wget -O addrbook.json https://snapshots.polkachu.com/addrbook/composable/addrbook.json –inet4-only
+mv addrbook.json ~/.banksy/config or
+KJ Nodes
+curl -Ls https://snapshots.kjnodes.com/composable/addrbook.json > $HOME/.banksy/config/addrbook.json or
+Genznodes
+wget -O $HOME/.banksy/config/addrbook.json “https://snapshot.genznodes.dev/composable/addrbook.json”
+# Or find seed from some validator that offers seed to bootstrap your node.
+```
+
