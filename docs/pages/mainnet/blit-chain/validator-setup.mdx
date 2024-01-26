@@ -1,0 +1,46 @@
+---
+BINARY: "blitd"
+CHAIN_ID: "blit-1"
+DENOM: "ublit"
+---
+import { Callout } from 'nextra/components'
+
+# Validator setup for Composable Finance - Composable (cosmos) chain
+
+## Create keys and validator
+
+<Callout type="info" emoji="🙋‍♀️">
+  Make sure to change values for moniker, identity, details website to your own values.
+</Callout>
+
+```bash
+#Create the wallet ( replace #keyname with whatever name you want)
+{$BINARY} keys add #keyname
+```
+Now create validator.json and place it somewhere you will know. Run this command and insert pubkey
+in json file.
+
+```bash
+{$BINARY} tendermint show-validator
+```
+
+```json
+#Now create the validator.json  
+--amount=1000000{$DENOM} \
+--pubkey=fillInFromTheCommandUp \
+--moniker=validatorName \
+--chain-id={$CHAIN_ID} \
+--commission-rate=”0.05″ \
+--commission-max-rate=”0.20″ \
+--commission-max-change-rate=”0.01″ \
+--min-self-delegation=”1″ \
+--from=#keyname \
+--identity=keybaseIdNumber \
+--details=“write info about your validators for example what type of service you ofer etc.” \
+--website=“https://cogwheel.zone for example” \
+```
+
+```bash
+{$BINARY} tx staking create-validator /path/to/validator.json --gas-adjustment 1.5 --gas auto
+ --gas-prices 0{$DENOM} -y
+```

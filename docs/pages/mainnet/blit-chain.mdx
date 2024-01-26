@@ -1,0 +1,41 @@
+---
+CHAIN_ID: "blit-1"
+CHAIN_VERSION: "v0.7"
+CHAIN_HOME: "$HOME/.blit"
+NETWORK_TYPE: "mainnet"
+---
+
+# Blit Chain
+
+![Blit Chain icon](/public/assets/blitIcon.webp){width=10rem}
+
+| :------------      | :----------       |
+| Chain ID           | {$CHAIN_ID}       |
+| Chain version      | {$CHAIN_VERSION}  |
+| Netrork type       | {$NETWORK_TYPE}   |
+
+## Endpoints
+
+| :------------      | :----------:                    |
+| Blit Chain         | Links                           |
+| REST API           | https://blit-api.cogwheel.zone  |
+| RPC                | https://blit-rpc.cogwheel.zone  |
+| GRPC               | grpc://blit-grpc.cogwheel.zone  |
+
+<Cards>
+  <Card
+    icon={<ChevronRightIcon />}
+    title="Install Node"
+    href="./blit-chain/install-node"
+  />
+  <Card
+    icon={<ChevronRightIcon />}
+    title="Validator Setup"
+    href="./blit-chain/validator-setup"
+  />
+  <Card
+    icon={<ChevronRightIcon />}
+    title="Node Commands"
+    href="./blit-chain/node-commands"
+  />
+</Cards>
