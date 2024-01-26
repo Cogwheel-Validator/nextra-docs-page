@@ -5,35 +5,36 @@ DENOM: "ppica"
 ---
 import { Callout } from 'nextra/components'
 
-# Validator setup for Composable Finance - Composable (cosmos) chain
+# Validator setup for Dyson Protocol
 
 ## Create keys and validator
 
-
+<Callout type="info" emoji="🐋">
+  Some commands need to be executed inside docker container. Any commands with the binary
+  should be executed inside the chain container. To enter chain container use this command:
+  "docker compose exec chain bash" inside the dyson directory.
+</Callout>
 <Callout type="info" emoji="🙋‍♀️">
   Make sure to change values for moniker, identity, details website to your own values.
 </Callout>
 
 ```bash
-#Create the wallet ( replace #keyname with whatever name you want)
-{$BINARY} keys add #keyname
+#Then create the wallet ( replace #keyname with whatever name you want)
+$ dysond keys add #keyname
 
 #Now create the validator 
-{$BINARY} tx staking create-validator \
---amount=1000000000000{$DENOM} \
---pubkey=$( {$BINARY} tendermint show-validator) \
---moniker=validatorName \
---chain-id={$CHAIN_ID} \
+$ dysond tx staking create-validator \
+--amount=1dys \
+--pubkey=$(dysond tendermint show-validator) \
+--moniker=node name \
+--chain-id=dyson-mainnet-01 \
 --commission-rate=”0.05″ \
 --commission-max-rate=”0.20″ \
 --commission-max-change-rate=”0.01″ \
 --min-self-delegation=”1″ \
 --gas=”auto” \
---gas-prices=”0{$DENOM}” \
+--gas-prices=”0.0001dys” \
 --from=#keyname \
---gas-adjustment=1.5
---identity=keybaseIdNumber \
---details=“write info about your validators for example what type of service you ofer etc.” \
---website=“https://cogwheel.zone for example” \
+--gas-adjustment 1.5
 ```
 

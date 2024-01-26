@@ -1,17 +1,20 @@
 ---
-DENOM: "ppica"
-CHAIN_ID: "centauri-1"
-BINARY: "centaurid"
-CHAIN_NAME: "Composable Finance - Composable Cosmos chain"
-CHAIN_HOME: "$HOME/.banksy"
-DIRECTORY: "composable-centauri"
+DENOM: "dys"
+CHAIN_ID: "dyson-mainnet-01"
+BINARY: "dysond"
+CHAIN_NAME: "Dyson Protocol"
+CHAIN_HOME: "$HOME/dyson_deploy"
+GAS: "0.001"
 ---
 import { Callout } from 'nextra/components'
 
 # Usefull commands for {$CHAIN_NAME}
 
-![Composable icon](/public/assets/composableIcon.webp){width=10rem}
-
+<Callout type="info" emoji="🐋">
+  Some commands need to be executed inside docker container. Any commands with the binary
+  should be executed inside the chain container. To enter chain container use this command:
+  "docker compose exec chain bash" inside the dyson directory.
+</Callout>
 ## 🔑 Key management
 
 
@@ -82,7 +85,7 @@ import { Callout } from 'nextra/components'
 --from wallet \
 --gas-adjustment 1.5 \
 --gas auto \
---gas-prices 0{$DENOM} \
+--gas-prices {$GAS}{$DENOM} \
 -y
 ```
 
@@ -90,7 +93,7 @@ import { Callout } from 'nextra/components'
 
 ```bash
 {$BINARY} tx slashing unjail --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto
- --gas-prices 0{$DENOM} -y
+ --gas-prices {$GAS}{$DENOM} -y
 ```
 
 #### Jail reason
@@ -122,43 +125,43 @@ import { Callout } from 'nextra/components'
 #### Withdraw rewards from all validators
 
 ```bash
-{$BINARY} tx distribution withdraw-all-rewards --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices 0{$DENOM} -y
+{$BINARY} tx distribution withdraw-all-rewards --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices {$GAS}{$DENOM} -y
 ```
 
 #### Withdraw commission and rewards from your validator
 
 ```bash
-{$BINARY} tx distribution withdraw-rewards $( {$BINARY} keys show wallet --bech val -a) --commission --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices 0{$DENOM} -y
+{$BINARY} tx distribution withdraw-rewards $( {$BINARY} keys show wallet --bech val -a) --commission --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices {$GAS}{$DENOM} -y
 ```
 
 #### Delegate tokens to yourself
 
 ```bash
-{$BINARY} tx staking delegate $( {$BINARY} keys show wallet --bech val -a) 1000000000000{$DENOM} --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices 0{$DENOM} -y
+{$BINARY} tx staking delegate $( {$BINARY} keys show wallet --bech val -a) 1000000000000{$DENOM} --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices {$GAS}{$DENOM} -y
 ```
 
 #### Delegate tokens to validator
 
 ```bash
-{$BINARY} tx staking delegate <TO_VALOPER_ADDRESS> 1000000000000{$DENOM} --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices 0{$DENOM}  -y
+{$BINARY} tx staking delegate <TO_VALOPER_ADDRESS> 1000000000000{$DENOM} --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices {$GAS}{$DENOM}  -y
 ```
 
 #### Redelegate tokens to another validator
 
 ```bash
-{$BINARY} tx staking redelegate $( {$BINARY} keys show wallet --bech val -a) <TO_VALOPER_ADDRESS> 1000000${CHAIN_DENOM} --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices 0{$DENOM} -y
+{$BINARY} tx staking redelegate $( {$BINARY} keys show wallet --bech val -a) <TO_VALOPER_ADDRESS> 1000000${CHAIN_DENOM} --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices {$GAS}{$DENOM} -y
 ```
 
 #### Unbond tokens from your validator
 
 ```bash
-{$BINARY} tx staking unbond $( {$BINARY} keys show wallet --bech val -a) 1000000${CHAIN_DENOM} --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices 0{$DENOM} -y
+{$BINARY} tx staking unbond $( {$BINARY} keys show wallet --bech val -a) 1000000${CHAIN_DENOM} --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices {$GAS}{$DENOM} -y
 ```
 
 #### Send tokens to the wallet
 
 ```bash
-{$BINARY} tx bank send wallet <TO_WALLET_ADDRESS> 1000000${CHAIN_DENOM} --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices 0{$DENOM} -y
+{$BINARY} tx bank send wallet <TO_WALLET_ADDRESS> 1000000${CHAIN_DENOM} --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices {$GAS}{$DENOM} -y
 ```
 
 ## 🏛️ Governance
@@ -178,25 +181,25 @@ import { Callout } from 'nextra/components'
 #### Vote 'Yes'
 
 ```bash
-{$BINARY} tx gov vote 1 yes --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices 0{$DENOM} -y
+{$BINARY} tx gov vote 1 yes --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices {$GAS}{$DENOM} -y
 ```
 
 #### Vote 'No'
 
 ```bash
-{$BINARY} tx gov vote 1 no --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices 0{$DENOM} -y
+{$BINARY} tx gov vote 1 no --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices {$GAS}{$DENOM} -y
 ```
 
 #### Vote 'Abstain'
 
 ```bash
-{$BINARY} tx gov vote 1 abstain --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices 0{$DENOM} -y
+{$BINARY} tx gov vote 1 abstain --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices {$GAS}{$DENOM} -y
 ```
 
 #### Vote 'NoWithVeto'
 
 ```bash
-{$BINARY} tx gov vote 1 NoWithVeto --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices 0{$DENOM} -y
+{$BINARY} tx gov vote 1 NoWithVeto --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices {$GAS}{$DENOM} -y
 ```
 
 ## ⚡️ Utility
@@ -206,13 +209,13 @@ import { Callout } from 'nextra/components'
 **Disable indexer**
 
 ```bash
-sed -i -e 's|^indexer *=.*|indexer = "null"|' {$CHAIN_HOME}/config/config.toml
+sed -i -e 's|^indexer *=.*|indexer = "null"|' {$CHAIN_HOME}/config.toml.sample
 ```
 
 **Enable indexer**
 
 ```bash
-sed -i -e 's|^indexer *=.*|indexer = "kv"|' {$CHAIN_HOME}/config/config.toml
+sed -i -e 's|^indexer *=.*|indexer = "kv"|' {$CHAIN_HOME}/config.toml.sample
 ```
 
 #### Update pruning
@@ -223,7 +226,7 @@ sed -i \
   -e 's|^pruning-keep-recent *=.*|pruning-keep-recent = "2000"|' \
   -e 's|^pruning-keep-every *=.*|pruning-keep-every = "0"|' \
   -e 's|^pruning-interval *=.*|pruning-interval = "100"|' \
-  {$CHAIN_HOME}/config/app.toml
+  {$CHAIN_HOME}/app.toml.sample
 ```
 
 ## 🔧 Maintenance
@@ -243,7 +246,7 @@ sed -i \
 #### Enable prometheus
 
 ```bash
-sed -i -e "s/prometheus = false/prometheus = true/" {$CHAIN_HOME}/config/config.toml
+sed -i -e "s/prometheus = false/prometheus = true/" {$CHAIN_HOME}/config.toml.sample
 ```
 
 #### Reset chain data
@@ -266,55 +269,24 @@ sudo rm /etc/systemd/system/{$BINARY}.service
 sudo systemctl daemon-reload
 rm -f $(which {$BINARY})
 rm -rf {$CHAIN_HOME}
-rm -rf $HOME/{$DIRECTORY}
 ```
 
 ## ⚙️ Service Management
 
-#### Reload service configuration
-
-```bash
-sudo systemctl daemon-reload
-```
-
-#### Enable service
-
-```bash
-sudo systemctl enable {$BINARY}
-```
-
-#### Disable service
-
-```bash
-sudo systemctl disable {$BINARY}
-```
-
 #### Start service
 
 ```bash
-sudo systemctl start {$BINARY}
+make start
 ```
 
 #### Stop service
 
 ```bash
-sudo systemctl stop {$BINARY}
+make stop
 ```
 
 #### Restart service
 
 ```bash
-sudo systemctl restart {$BINARY}
-```
-
-#### Check service status
-
-```bash
-sudo systemctl status {$BINARY}
-```
-
-#### Check service logs
-
-```bash
-sudo journalctl -u {$BINARY} -f --no-hostname -o cat
+make stop && make start
 ```
