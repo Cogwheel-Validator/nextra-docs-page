@@ -1,16 +1,18 @@
 ---
-DENOM: "ublit"
-CHAIN_ID: "blit-testnet-1"
-BINARY: "blitd"
-CHAIN_NAME: "Blit Chain"
-CHAIN_HOME: "$HOME/.blit"
-DIRECTORY: "blitchain"
+DENOM: "uojo"
+CHAIN_ID: "ojo-devnet"
+BINARY: "ojod"
+CHAIN_NAME: "Ojo Oracle"
+CHAIN_HOME: "$HOME/.ojo"
+GAS: "0"
+DIRECTORY: "ojo"
 ---
 import { Callout } from 'nextra/components'
 
 # Usefull commands for {$CHAIN_NAME}
 
 ## 🔑 Key management
+
 
 <Callout type="info" emoji="👛">
   Change wallet in the commands to your own wallet name.
@@ -68,28 +70,26 @@ import { Callout } from 'nextra/components'
 
 #### Edit existing validator
 
-Edit the validator.json. Then execute the command.
-
-```json
---moniker "YOUR_MONIKER_NAME" \
+```bash
+{$BINARY} tx staking edit-validator \
+--new-moniker "YOUR_MONIKER_NAME" \
 --identity "YOUR_KEYBASE_ID" \
 --details "YOUR_DETAILS" \
 --website "YOUR_WEBSITE_URL" \
 --chain-id {$CHAIN_ID} \
 --commission-rate 0.05 \
---from wallet
-```
-
-```bash
-{$BINARY} tx staking edit-validator /path/to/validator.json --gas-adjustment 1.5 --gas auto
- --gas-prices 0{$DENOM} -y
+--from wallet \
+--gas-adjustment 1.5 \
+--gas auto \
+--gas-prices {$GAS}{$DENOM} \
+-y
 ```
 
 #### Unjail validator
 
 ```bash
 {$BINARY} tx slashing unjail --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto
- --gas-prices 0{$DENOM} -y
+ --gas-prices {$GAS}{$DENOM} -y
 ```
 
 #### Jail reason
@@ -121,43 +121,43 @@ Edit the validator.json. Then execute the command.
 #### Withdraw rewards from all validators
 
 ```bash
-{$BINARY} tx distribution withdraw-all-rewards --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices 0{$DENOM} -y
+{$BINARY} tx distribution withdraw-all-rewards --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices {$GAS}{$DENOM} -y
 ```
 
 #### Withdraw commission and rewards from your validator
 
 ```bash
-{$BINARY} tx distribution withdraw-rewards $( {$BINARY} keys show wallet --bech val -a) --commission --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices 0{$DENOM} -y
+{$BINARY} tx distribution withdraw-rewards $( {$BINARY} keys show wallet --bech val -a) --commission --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices {$GAS}{$DENOM} -y
 ```
 
 #### Delegate tokens to yourself
 
 ```bash
-{$BINARY} tx staking delegate $( {$BINARY} keys show wallet --bech val -a) 1000000000000{$DENOM} --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices 0{$DENOM} -y
+{$BINARY} tx staking delegate $( {$BINARY} keys show wallet --bech val -a) 1000000000000{$DENOM} --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices {$GAS}{$DENOM} -y
 ```
 
 #### Delegate tokens to validator
 
 ```bash
-{$BINARY} tx staking delegate <TO_VALOPER_ADDRESS> 1000000000000{$DENOM} --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices 0{$DENOM}  -y
+{$BINARY} tx staking delegate <TO_VALOPER_ADDRESS> 1000000000000{$DENOM} --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices {$GAS}{$DENOM}  -y
 ```
 
 #### Redelegate tokens to another validator
 
 ```bash
-{$BINARY} tx staking redelegate $( {$BINARY} keys show wallet --bech val -a) <TO_VALOPER_ADDRESS> 1000000${CHAIN_DENOM} --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices 0{$DENOM} -y
+{$BINARY} tx staking redelegate $( {$BINARY} keys show wallet --bech val -a) <TO_VALOPER_ADDRESS> 1000000${CHAIN_DENOM} --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices {$GAS}{$DENOM} -y
 ```
 
 #### Unbond tokens from your validator
 
 ```bash
-{$BINARY} tx staking unbond $( {$BINARY} keys show wallet --bech val -a) 1000000${CHAIN_DENOM} --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices 0{$DENOM} -y
+{$BINARY} tx staking unbond $( {$BINARY} keys show wallet --bech val -a) 1000000${CHAIN_DENOM} --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices {$GAS}{$DENOM} -y
 ```
 
 #### Send tokens to the wallet
 
 ```bash
-{$BINARY} tx bank send wallet <TO_WALLET_ADDRESS> 1000000${CHAIN_DENOM} --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices 0{$DENOM} -y
+{$BINARY} tx bank send wallet <TO_WALLET_ADDRESS> 1000000${CHAIN_DENOM} --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices {$GAS}{$DENOM} -y
 ```
 
 ## 🏛️ Governance
@@ -177,25 +177,25 @@ Edit the validator.json. Then execute the command.
 #### Vote 'Yes'
 
 ```bash
-{$BINARY} tx gov vote 1 yes --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices 0{$DENOM} -y
+{$BINARY} tx gov vote 1 yes --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices {$GAS}{$DENOM} -y
 ```
 
 #### Vote 'No'
 
 ```bash
-{$BINARY} tx gov vote 1 no --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices 0{$DENOM} -y
+{$BINARY} tx gov vote 1 no --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices {$GAS}{$DENOM} -y
 ```
 
 #### Vote 'Abstain'
 
 ```bash
-{$BINARY} tx gov vote 1 abstain --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices 0{$DENOM} -y
+{$BINARY} tx gov vote 1 abstain --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices {$GAS}{$DENOM} -y
 ```
 
 #### Vote 'NoWithVeto'
 
 ```bash
-{$BINARY} tx gov vote 1 NoWithVeto --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices 0{$DENOM} -y
+{$BINARY} tx gov vote 1 NoWithVeto --from wallet --chain-id {$CHAIN_ID} --gas-adjustment 1.5 --gas auto --gas-prices {$GAS}{$DENOM} -y
 ```
 
 ## ⚡️ Utility
@@ -252,8 +252,6 @@ sed -i -e "s/prometheus = false/prometheus = true/" {$CHAIN_HOME}/config/config.
 ```
 
 #### Remove node
-
-
 
 <Callout type="error" emoji="☢️">
   Make sure you have backed up your priv_validator_key.json!

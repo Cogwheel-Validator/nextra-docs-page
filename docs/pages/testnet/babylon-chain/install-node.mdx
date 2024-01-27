@@ -1,19 +1,18 @@
 ---
-CHAIN_ID: "centauri-1"
-CHAIN_VERSION: "v6.4.3"
-CHAIN_HOME: "$HOME/.banksy"
-NETWORK_TYPE: "mainnet"
-BINARY: "centaurid"
-CODEBASE: "https://github.com/ComposableFi/composable-cosmos.git"
-DIRECTORY: "composable-centauri"
-SERVICE: "centaurid.service"
-SERVICE_NAME: "Composable"
-GO_VERSION: "1.21.1."
-DENOM: "ppica"
+CHAIN_ID: "bbn-test-2"
+CHAIN_VERSION: "v0.7.2"
+CHAIN_HOME: "$HOME/.babylond"
+NETWORK_TYPE: "testnet"
+BINARY: "babylond"
+CODEBASE: "https://github.com/babylonchain/babylon.git"
+DIRECTORY: "babylon"
+SERVICE: "babylond.service"
+SERVICE_NAME: "Babylon"
+GO_VERSION: "1.20.4."
+DENOM: "ubbn"
 ---
-import { Callout } from 'nextra/components'
 
-# Node setup for Composable Cosmos chain
+# Node setup for {$SERVICE_NAME}
 
 Node setup requres some basic knowlage of Linux OS and server managment. Setting up the node
 can be daunting and chalanging task. This is a short guide how to set up the node.
@@ -98,23 +97,24 @@ sudo systemctl enable {$SERVICE}
 {$BINARY} init YOUR_MONIKER --chain-id {$CHAIN_ID}
 
 # Get address book and genesis.json
-wget -O {$CHAIN_HOME}/config/genesis.json https://raw.githubusercontent.com/notional-labs/composable-networks/main/mainnet/genesis.json
+wget https://github.com/babylonchain/networks/raw/main/bbn-test-2/genesis.tar.bz2
+tar -xjf genesis.tar.bz2 && rm genesis.tar.bz2
+mv genesis.json ~/.babylond/config/genesis.json
 
-#Set minimum gas prices
-sed -i -e “s|^minimum-gas-prices *=.*|minimum-gas-prices = \”0{$DENOM}\”|” {$CHAIN_HOME}/config/app.toml
+
+#Do some changes to the settings
+babylond config keyring-backend test
+sed -i -e “s|^minimum-gas-prices *=.*|minimum-gas-prices = \”0.00001ubbn\”|” $HOME/.babylond/config/app.toml
+
 # You can get address book from any validator (you only need 1 address book)
-```
-```Polkachu
-wget -O addrbook.json https://snapshots.polkachu.com/addrbook/composable/addrbook.json -inet4-only
-mv addrbook.json ~/.banksy/config
-```
-Or
-```KJ Nodes
-curl -Ls https://snapshots.kjnodes.com/composable/addrbook.json > $HOME/.banksy/config/addrbook.json
-```
-Or
-```Genznodes
-wget -O $HOME/.banksy/config/addrbook.json “https://snapshot.genznodes.dev/composable/addrbook.json”
+
+#Polkachu
+wget -O addrbook.json https://snapshots.polkachu.com/testnet-addrbook/babylon/addrbook.json –inet4-only
+mv addrbook.json ~/.babylond/config or
+#KJ Nodes
+curl -Ls https://snapshots.kjnodes.com/babylon-testnet/addrbook.json > $HOME/.babylond/config/addrbook.json or
+#NodeJumper
+curl -s https://snapshots-testnet.nodejumper.io/babylon-testnet/addrbook.json > $HOME/.babylond/config/addrbook.json
 # Or find seed from some validator that offers seed to bootstrap your node.
 ```
 
@@ -123,23 +123,17 @@ wget -O $HOME/.banksy/config/addrbook.json “https://snapshot.genznodes.dev/com
 Use snapshot or state sync to catch up.
 
 
-<Callout type="warning" emoji="⚠️">
-  If you plan to use state sync make sure that entety that offers these services
-   has wasm file included.
-</Callout>
-
 ```
 Links to snapshots. You only need from one provider.
+https://polkachu.com/testnets/babylon/snapshots
 
-https://polkachu.com/tendermint_snapshots/composable
+https://services.kjnodes.com/testnet/babylon/snapshot/
 
-https://autostake.com/networks/composable/#validator
-
-https://services.kjnodes.com/mainnet/composable/snapshot/
+https://app.nodejumper.io/babylon-testnet/sync
 ```
 
 ## Start the node
 
 ```bash
-sudo systemctl start centaurid && sudo journalctl -fu centaurid -o cat
+sudo systemctl start {$BINARY}  && sudo journalctl -fu {$BINARY} -o cat
 ```

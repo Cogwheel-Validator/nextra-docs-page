@@ -20,23 +20,19 @@
     "type":"menu",
     "items": {
       "mainnet": {
-        "title": "Mainnets"
+        "title": "Mainnets",
+        "href": "/mainnet"
       },
       "testnet": {
-        "title": "Testnets"
+        "title": "Testnets",
+        "href": "/testnet"
       }
     }
-  },
-  "another": "Another Page",
-  "advanced": "Advanced (A Folder)",
-  "about": {
-    "title": "About",
-    "type": "page"
   },
   "contact": {
     "title": "Contact ↗",
     "type": "page",
-    "href": "https://twitter.com/shuding_",
+    "href": "https://twitter.com/cogwheel_val",
     "newWindow": true
   }
 }
