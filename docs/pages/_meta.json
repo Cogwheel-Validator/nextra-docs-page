@@ -28,11 +28,5 @@
         "href": "/testnet"
       }
     }
-  },
-  "contact": {
-    "title": "Contact ↗",
-    "type": "page",
-    "href": "https://twitter.com/cogwheel_val",
-    "newWindow": true
   }
 }
