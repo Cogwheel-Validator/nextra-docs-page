@@ -6,7 +6,7 @@ CHAIN_NAME: "Babylon Chain"
 ---
 import { Callout } from 'nextra/components'
 
-# Validator setup for {$CHAIN_NAME}
+# Validator setup for {CHAIN_NAME}
 
 ## Create keys and validator
 
@@ -19,8 +19,8 @@ import { Callout } from 'nextra/components'
 {$BINARY} keys add #keyname
 
 # Create bls key and restart the node after adding bls key
-$ babylond create-bls-key $(babylond keys show wallet -a)
-$ sudo systemctl restart babylond
+babylond create-bls-key $(babylond keys show wallet -a)
+sudo systemctl restart babylond
 
 #Now create the validator 
 {$BINARY} tx staking create-validator \

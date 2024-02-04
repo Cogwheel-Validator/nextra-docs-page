@@ -20,10 +20,10 @@ import { Callout } from 'nextra/components'
 
 ```bash
 #Then create the wallet ( replace #keyname with whatever name you want)
-$ dysond keys add #keyname
+dysond keys add #keyname
 
 #Now create the validator 
-$ dysond tx staking create-validator \
+dysond tx staking create-validator \
 --amount=1dys \
 --pubkey=$(dysond tendermint show-validator) \
 --moniker=node name \
