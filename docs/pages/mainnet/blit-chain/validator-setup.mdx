@@ -1,12 +1,6 @@
----
-BINARY: "blitd"
-CHAIN_ID: "blit-1"
-DENOM: "ublit"
-CHAIN_NAME: "Blit Chain"
----
 import { Callout } from 'nextra/components'
 
-# Validator setup for {CHAIN_NAME}
+# Validator setup for Blit Chain
 
 ## Create keys and validator
 
@@ -16,21 +10,21 @@ import { Callout } from 'nextra/components'
 
 ```bash
 #Create the wallet ( replace #keyname with whatever name you want)
-{$BINARY} keys add #keyname
+blitd keys add #keyname
 ```
 Now create validator.json and place it somewhere you will know. Run this command and insert pubkey
 in json file.
 
 ```bash
-{$BINARY} tendermint show-validator
+blitd tendermint show-validator
 ```
 
 ```json
 #Now create the validator.json  
---amount=1000000{$DENOM} \
+--amount=1000000ublit \
 --pubkey=fillInFromTheCommandUp \
 --moniker=validatorName \
---chain-id={$CHAIN_ID} \
+--chain-id=blit-1 \
 --commission-rate=”0.05″ \
 --commission-max-rate=”0.20″ \
 --commission-max-change-rate=”0.01″ \
@@ -42,6 +36,6 @@ in json file.
 ```
 
 ```bash
-{$BINARY} tx staking create-validator /path/to/validator.json --gas-adjustment 1.5 --gas auto
- --gas-prices 0{$DENOM} -y
+blitd tx staking create-validator /path/to/validator.json --gas-adjustment 1.5 --gas auto
+ --gas-prices 0ublit -y
 ```

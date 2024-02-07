@@ -1,18 +1,4 @@
----
-CHAIN_ID: "blit-1"
-CHAIN_VERSION: "v0.7"
-CHAIN_HOME: "$HOME/.blit"
-NETWORK_TYPE: "mainnet"
-BINARY: "blitd"
-CODEBASE: "https://github.com/BlitChain/blitchain"
-DIRECTORY: "blitchain"
-SERVICE: "blitd.service"
-SERVICE_NAME: "Blit"
-GO_VERSION: "1.21.3"
-DENOM: "ublit"
----
-
-# Node setup for {SERVICE_NAME}
+# Node setup for Blit Chain
 
 Node setup requres some basic knowlage of Linux OS and server managment. Setting up the node
 can be daunting and chalanging task. This is a short guide how to set up the node.
@@ -61,8 +47,8 @@ echo 'export PATH="$PATH:$GOPATH/bin"' >> ~/.bashrc
 #Save changes
 source ~/.bashrc
 
-goenv install {$GO_VERSION}
-goenv global {$GO_VERSION}
+goenv install 1.21.3
+goenv global 1.21.3
 ```
 
 ## Install Pyenv
@@ -95,7 +81,7 @@ cd $DAEMON_HOME/cosmovisor/
 curl https://raw.githubusercontent.com/BlitChain/blitchain/develop/scripts/cosmovisor-preupgrade-build-from-source.sh > cosmovisor-preupgrade-build-from-source.sh
 chmod +x ./cosmovisor-preupgrade-build-from-source.sh
 ```
-## Install latest blitd and set up sim Links
+## Install latest blitd and set up sim links
 
 ```bash
 ./cosmovisor-preupgrade-build-from-source.sh $BLIT_VERSION

@@ -1,12 +1,6 @@
----
-BINARY: "babylond"
-CHAIN_ID: "bbn-test-2"
-DENOM: "ubbn"
-CHAIN_NAME: "Babylon Chain"
----
 import { Callout } from 'nextra/components'
 
-# Validator setup for {CHAIN_NAME}
+# Validator setup for Babylon Chain
 
 ## Create keys and validator
 
@@ -16,24 +10,24 @@ import { Callout } from 'nextra/components'
 
 ```bash
 #Create the wallet ( replace #keyname with whatever name you want)
-{$BINARY} keys add #keyname
+babylond keys add #keyname
 
 # Create bls key and restart the node after adding bls key
 babylond create-bls-key $(babylond keys show wallet -a)
 sudo systemctl restart babylond
 
 #Now create the validator 
-{$BINARY} tx staking create-validator \
---amount=1000000{$DENOM} \
---pubkey=$( {$BINARY} tendermint show-validator) \
+babylond tx staking create-validator \
+--amount=1000000ubbn \
+--pubkey=$( babylond tendermint show-validator) \
 --moniker=validatorName \
---chain-id={$CHAIN_ID} \
+--chain-id=bbn-test-2 \
 --commission-rate=”0.05″ \
 --commission-max-rate=”0.20″ \
 --commission-max-change-rate=”0.01″ \
 --min-self-delegation=”1″ \
 --gas=”auto” \
---gas-prices=”0.001{$DENOM}” \
+--gas-prices=”0.001ubbn” \
 --from=#keyname \
 --gas-adjustment=1.5
 --identity=keybaseIdNumber \

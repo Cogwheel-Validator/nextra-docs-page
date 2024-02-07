@@ -1,8 +1,3 @@
----
-BINARY: "centaurid"
-CHAIN_ID: "centauri-1"
-DENOM: "ppica"
----
 import { Callout } from 'nextra/components'
 
 # Validator setup for Composable Finance - Composable (cosmos) chain
@@ -16,20 +11,20 @@ import { Callout } from 'nextra/components'
 
 ```bash
 #Create the wallet ( replace #keyname with whatever name you want)
-{$BINARY} keys add #keyname
+centaurid keys add #keyname
 
 #Now create the validator 
-{$BINARY} tx staking create-validator \
---amount=1000000000000{$DENOM} \
---pubkey=$( {$BINARY} tendermint show-validator) \
+centaurid tx staking create-validator \
+--amount=1000000000000ppica \
+--pubkey=$( centaurid tendermint show-validator) \
 --moniker=validatorName \
---chain-id={$CHAIN_ID} \
+--chain-id=centauri-1 \
 --commission-rate=”0.05″ \
 --commission-max-rate=”0.20″ \
 --commission-max-change-rate=”0.01″ \
 --min-self-delegation=”1″ \
 --gas=”auto” \
---gas-prices=”0{$DENOM}” \
+--gas-prices=”0ppica” \
 --from=#keyname \
 --gas-adjustment=1.5
 --identity=keybaseIdNumber \

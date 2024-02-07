@@ -1,12 +1,6 @@
----
-BINARY: "ojod"
-CHAIN_ID: "ojo-devnet"
-DENOM: "uojo"
-CHAIN_NAME: "Ojo Oracle"
----
 import { Callout } from 'nextra/components'
 
-# Validator setup for {CHAIN_NAME}
+# Validator setup for Ojo Oracle Chain
 
 ## Create keys and validator
 
@@ -16,20 +10,20 @@ import { Callout } from 'nextra/components'
 
 ```bash
 #Create the wallet ( replace #keyname with whatever name you want)
-{$BINARY} keys add #keyname
+ojod keys add #keyname
 
 #Now create the validator 
-{$BINARY} tx staking create-validator \
---amount=1000000{$DENOM} \
---pubkey=$( {$BINARY} tendermint show-validator) \
+ojod tx staking create-validator \
+--amount=1000000uojo \
+--pubkey=$( ojod tendermint show-validator) \
 --moniker=validatorName \
---chain-id={$CHAIN_ID} \
+--chain-id=ojo-devnet \
 --commission-rate=”0.05″ \
 --commission-max-rate=”0.20″ \
 --commission-max-change-rate=”0.01″ \
 --min-self-delegation=”1″ \
 --gas=”auto” \
---gas-prices=”0.001{$DENOM}” \
+--gas-prices=”0.001uojo” \
 --from=#keyname \
 --gas-adjustment=1.5
 --identity=keybaseIdNumber \

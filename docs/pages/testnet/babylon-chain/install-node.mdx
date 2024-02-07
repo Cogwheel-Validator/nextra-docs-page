@@ -12,7 +12,7 @@ GO_VERSION: "1.20.4."
 DENOM: "ubbn"
 ---
 
-# Node setup for {SERVICE_NAME}
+# Node setup for Babylon Chain
 
 Node setup requres some basic knowlage of Linux OS and server managment. Setting up the node
 can be daunting and chalanging task. This is a short guide how to set up the node.
@@ -29,9 +29,9 @@ sudo apt install entr jq make git ufw wget
 
 ```bash
 sudo rm -r /usr/local/go/
-wget https://golang.org/dl/go{$GO_VERSION}.linux-amd64.tar.gz
-sudo tar -C /usr/local -xzf go{$GO_VERSION}.linux-amd64.tar.gz
-rm go{$GO_VERSION}.linux-amd64.tar.gz
+wget https://golang.org/dl/go1.20.4..linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.20.4..linux-amd64.tar.gz
+rm go1.20.4..linux-amd64.tar.gz
 echo 'export PATH=$PATH:/usr/local/go/bin' >> $HOME/.bashrc
 echo 'export PATH=$PATH:$HOME/go/bin' >> $HOME./bashrc
 source $HOME/.bashrc
@@ -45,24 +45,24 @@ sudo mv ~/go/bin/cosmovisor /usr/local/bin
 
 ```bash
 cd $HOME 
-git clone {$CODEBASE}
-cd {$DIRECTORY} 
-git checkout {$CHAIN_VERSION} # always doublecheck from the official team for the right version
+git clone https://github.com/babylonchain/babylon.git
+cd babylon 
+git checkout v0.7.2 # always doublecheck from the official team for the right version
 make install
 ```
 
 ## Set up cosmovisor
 
 ```bash 
-mkdir -p {$CHAIN_HOME}/cosmovisor/genesis/bin
-mkdir -p {$CHAIN_HOME}/cosmovisor/upgrades
-mv $HOME/go/bin/{$BINARY} {$CHAIN_HOME}/cosmovisor/genesis/bin/
-sudo ln -s {$CHAIN_HOME}/cosmovisor/genesis {$CHAIN_HOME}/cosmovisor/current -f
-sudo ln -s {$CHAIN_HOME}/cosmovisor/current/bin/{$BINARY} /usr/local/bin/{$BINARY} -f
+mkdir -p $HOME/.babylond/cosmovisor/genesis/bin
+mkdir -p $HOME/.babylond/cosmovisor/upgrades
+mv $HOME/go/bin/babylond $HOME/.babylond/cosmovisor/genesis/bin/
+sudo ln -s $HOME/.babylond/cosmovisor/genesis $HOME/.babylond/cosmovisor/current -f
+sudo ln -s $HOME/.babylond/cosmovisor/current/bin/babylond /usr/local/bin/babylond -f
 
 # Create service file
 
-sudo tee /etc/systemd/system/{$SERVICE} > /dev/null <<EOF
+sudo tee /etc/systemd/system/babylond.service > /dev/null <<EOF
 [Unit]
 Description=”{$SERVICE_NAME} node”
 After=network-online.target
@@ -70,23 +70,23 @@ After=network-online.target
 [Service]
 User=$USER
 ExecStart=$(which cosmovisor) run start
-WorkingDirectory={$CHAIN_HOME}
+WorkingDirectory=$HOME/.babylond
 Restart=on-failure 
 RestartSec=5
 LimitNOFILE=65535
-Environment=”DAEMON_NAME={$BINARY}”
-Environment=”DAEMON_HOME={$CHAIN_HOME}”
+Environment=”DAEMON_NAME=babylond”
+Environment=”DAEMON_HOME=$HOME/.babylond”
 Environment=”DAEMON_ALLOW_DOWNLOAD_BINARIES=false”
 Environment=”DAEMON_RESTART_AFTER_UPGRADE=true”
 Environment=”UNSAFE_SKIP_BACKUP=true”
-Environment=”PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:{$CHAIN_HOME}/cosmovisor/current/bin”
+Environment=”PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:$HOME/.babylond/cosmovisor/current/bin”
 
 [Install]
 WantedBy=multi-user.target
 EOF
 
 sudo systemctl daemon-reload
-sudo systemctl enable {$SERVICE}
+sudo systemctl enable babylond.service
 ```
 
 ## Set up the node 
@@ -94,7 +94,7 @@ sudo systemctl enable {$SERVICE}
 ```bash
 # Please when using this guide replace “YOUR_MONIKER” with name for your node.
 
-{$BINARY} init YOUR_MONIKER --chain-id {$CHAIN_ID}
+babylond init YOUR_MONIKER --chain-id bbn-test-2
 
 # Get address book and genesis.json
 wget https://github.com/babylonchain/networks/raw/main/bbn-test-2/genesis.tar.bz2
@@ -135,5 +135,5 @@ https://app.nodejumper.io/babylon-testnet/sync
 ## Start the node
 
 ```bash
-sudo systemctl start {$BINARY}  && sudo journalctl -fu {$BINARY} -o cat
+sudo systemctl start babylond  && sudo journalctl -fu babylond -o cat
 ```
