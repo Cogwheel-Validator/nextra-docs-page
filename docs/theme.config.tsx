@@ -3,7 +3,7 @@ import type { DocsThemeConfig } from 'nextra-theme-docs'
 import { useConfig } from 'nextra-theme-docs'
 
 const logo = (
-  <img src="/public/logo-dark.png" alt="Logo" height="25px" width="25px" />
+  <img src="/logo-dark.png" alt="Logo" height="25px" width="25px" />
 )
 
 const config: DocsThemeConfig = {
